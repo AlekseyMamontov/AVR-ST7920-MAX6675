@@ -8,4 +8,6 @@ Arduino IDE       https://www.arduino.cc/en/Main/Software
 
 Xloader           запись в микроконтроллер  *.hex файла созданого в Atmel Studio после компиляции проэкта
 
+Режим подключения SPI  - 3 провода.
+
  
