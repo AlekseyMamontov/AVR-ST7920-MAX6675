@@ -38,9 +38,9 @@ temperature_sensor2_ASCII: .byte 4
 
 //////////////////////////////////////////////////////////////////////
 
-MAX6675_init: cbi max6675_ddr_SO,max6675_pin_SO		; на чтение
+MAX6675_init:             cbi max6675_ddr_SO,max6675_pin_SO     ; на чтение
 			  sbi max6675_ddr_SCK,max6675_pin_SCK	; на выход
-			  sbi max6675_ddr_CS,max6675_pin_CS		; на выход
+			  sbi max6675_ddr_CS,max6675_pin_CS	; на выход
 			  sbi max6675_ddr_CS,max6675_pin_CS2	; на выход	
 			  nop
 			  cbi max6675_port_SCK,max6675_pin_SCK  ; выставить LOW
@@ -54,19 +54,19 @@ MAX6675_load_temperature:
 			push max6675_temp2
 			push max6675_temp3
 
-			sbrs max6675_temp,0				 ;если 0 в 1 бите то выставить LOW
+			sbrs max6675_temp,0		         ;если 0 в 1 бите то выставить LOW
 			cbi max6675_port_CS,max6675_pin_CS	 ;на первой MAX6675 и начать обмен
-		    sbrc max6675_temp,0				 ;если 1 в 1 бите то выставить LOW
+		        sbrc max6675_temp,0		         ;если 1 в 1 бите то выставить LOW
 			cbi max6675_port_CS,max6675_pin_CS2;на второй MAX6675 и начать обмен. 
 
-			rcall MAX6675_load_bin			    ;считать температуру 12 bit + 1 bit включена ли термопара
+			rcall MAX6675_load_bin			 ;считать температуру 12 bit + 1 bit включена ли термопара
 
 			sbi max6675_port_CS,max6675_pin_CS	 ;выставить HIGH (отключить обмен)
-			sbi max6675_port_CS,max6675_pin_CS2  ;выставить HIGH (отключить обмен)
+			sbi max6675_port_CS,max6675_pin_CS2      ;выставить HIGH (отключить обмен)
 
 			lsr max6675_temp1
 			ror max6675_temp
-				brcs MAX6675_no_connect	; если 1 то термопара не подключена
+				brcs MAX6675_no_connect	        ; если 1 то термопара не подключена
 
 			st  X+, max6675_temp	; сохранить в памяти bin представление числа
 			st  X+, max6675_temp1
@@ -83,7 +83,7 @@ MAX6675_write_ram:
 			st X+, max6675_temp2	; записать в память LSB BINBСD
 			st X+, max6675_temp3	; записать в память MSB BINBСD
 
-MAX6675_pop:pop max6675_temp3
+MAX6675_pop:            pop max6675_temp3
 			pop max6675_temp2
 			pop max6675_temp1
 			ret	
